@@ -1,13 +1,10 @@
 name: Automatic release
 
 on:
-#  push:
-#    branches:
-#      - main
+  push:
+    branches:
+      - main
   workflow_dispatch:
-
-env:
-  IMAGE_NAME: geokrety/selenoid-image-firefox
 
 jobs:
   pre-commit:
@@ -17,7 +14,7 @@ jobs:
     uses: geokrety/geokrety-gha-workflows/.github/workflows/docker-build.yml@main
     needs: pre-commit
     with:
-      image_name: ${{ env.IMAGE_NAME }}
+      image_name: geokrety/selenoid-image-firefox
       dockerhub_username: ${{ vars.DOCKERHUB_USERNAME }}
       dockerfile: Dockerfile.firefox
     secrets:
