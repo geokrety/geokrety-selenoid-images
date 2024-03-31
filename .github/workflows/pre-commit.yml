@@ -1,0 +1,19 @@
+name: pre-commit
+
+on:
+  pull_request:
+    branches-ignore:
+      - main
+      - master
+      - l10n_master
+      - l10n_new-theme
+  push:
+    branches-ignore:
+      - main
+      - master
+      - l10n_master
+      - l10n_new-theme
+
+jobs:
+  lint:
+    uses: geokrety/geokrety-gha-workflows/.github/workflows/pre-commit.yml@main

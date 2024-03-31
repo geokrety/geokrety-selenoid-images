@@ -1,0 +1,29 @@
+name: docker-build
+
+on:
+  schedule:
+    - cron: "0 10 * * *"
+  push:
+    branches:
+      - "*"
+    tags:
+      - "*"
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: geokrety/selenoid-image-firefox
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: geokrety/geokrety-gha-workflows/.github/actions/docker-build@main
+        with:
+          image_name: ${{ env.IMAGE_NAME }}
+          dockerhub_username: ${{ vars.DOCKERHUB_USERNAME }}
+          dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
+          dockerfile: Dockerfile.firefox

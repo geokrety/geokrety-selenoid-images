@@ -1,0 +1,33 @@
+name: Automatic release
+
+on:
+#  push:
+#    branches:
+#      - main
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: geokrety/selenoid-image-firefox
+
+jobs:
+  pre-commit:
+    uses: geokrety/geokrety-gha-workflows/.github/workflows/pre-commit.yml@main
+
+  docker:
+    uses: geokrety/geokrety-gha-workflows/.github/workflows/docker-build.yml@main
+    needs: pre-commit
+    with:
+      image_name: ${{ env.IMAGE_NAME }}
+      dockerhub_username: ${{ vars.DOCKERHUB_USERNAME }}
+      dockerfile: Dockerfile.firefox
+    secrets:
+      dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  build-release:
+    uses: geokrety/geokrety-gha-workflows/.github/workflows/semantic-release.yml@main
+    needs:
+      - docker
+      # # Uncomment to set mandatory
+      # - integration-tests
+    secrets:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}

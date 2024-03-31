@@ -1,0 +1,13 @@
+ARG BASE_TAG=latest
+FROM selenoid/firefox:$BASE_TAG
+
+USER root
+
+RUN apt-get update \
+ && apt-get install -y \
+      fonts-urw-base35 \
+      ttf-bitstream-vera \
+ && apt-get clean \
+ && rm -r /var/lib/apt/lists/*
+
+USER selenium
