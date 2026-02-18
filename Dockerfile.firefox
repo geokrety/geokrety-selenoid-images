@@ -1,5 +1,5 @@
-ARG BASE_TAG=latest
-FROM selenoid/firefox:$BASE_TAG
+ARG BASE_TAG=firefox_stable
+FROM twilio/selenoid:$BASE_TAG
 
 USER root
 
